@@ -1,0 +1,20 @@
+// This defines a simple RPC service called Greetings with a single method 
+// Greet, which takes a GreetRequest messages as input and returns 
+// a GreetResponse message as output.
+
+
+syntax = "proto3";
+
+package hello;
+
+service Greetings {
+    rpc Greet (GreetRequest) returns (GreetResponse) {}
+}
+
+message GreetRequest {
+    string name = 1;
+}
+
+message GreetResponse {
+    string message = 1;
+}
