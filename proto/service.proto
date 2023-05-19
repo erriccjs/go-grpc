@@ -5,7 +5,7 @@
 
 syntax = "proto3";
 
-package hello;
+package greetings;
 
 service Greetings {
     rpc Greet (GreetRequest) returns (GreetResponse) {}
