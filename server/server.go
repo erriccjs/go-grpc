@@ -12,13 +12,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/erriccjs/go-grpc/proto"
+	greetings "github.com/erriccjs/go-grpc/proto"
 )
 
 type server struct{}
 
-func (s *server) Greet(ctx context.Context, in *pb.GreetRequest) (*pb.GreetResponse, error) {
-	return &pb.GreetResponse{Message: "Hello, " + in.Name}, nil
+func (s *server) Greet(ctx context.Context, req *greetings.GreetRequest) (*greetings.GreetResponse, error) {
+	return &greetings.GreetResponse{Message: "Hello, " + req.Name}, nil
 }
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-	pb.RegisterGreetingsServer(grpcServer, &server{})
+	greetings.RegisterGreetingsServer(grpcServer, &server{})
 
 	reflection.Register(grpcServer)
 

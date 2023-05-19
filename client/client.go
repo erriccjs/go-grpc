@@ -10,23 +10,26 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
-	pb "github.com/erriccjs/go-grpc/proto"
+	greetings "github.com/erriccjs/go-grpc/proto"
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
 
-	client := pb.NewGreetingsClient(conn)
+	client := greetings.NewGreetingsClient(conn)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	response, err := client.Greet(ctx, &pb.GreetRequest{Name: "Eric"})
+	req := &greetings.GreetRequest{Name: "Eric"}
+
+	response, err := client.Greet(ctx, req)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
